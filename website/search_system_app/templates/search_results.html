@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchResult</title>
+</head>
+<body>
+    <form method="get">
+        <input type="text" name="query" value="{{ query }}" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    <ul>
+        {% for document in documents %}
+        <li><a href = '{{ document.link }}'></a></li>
+        {% empty %}
+        <li>No documents found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

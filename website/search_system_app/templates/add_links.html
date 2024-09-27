@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchSystem</title>
+</head>
+<body>
+    <h1>Add Link</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Link</button>
+    </form>
+    <!-- <button id="showTextBtn">Показать текст</button>
+    <div id="pdfText" style="display: none;">{{ pdf_text }}</div>
+
+    <script>
+        document.getElementById('showTextBtn').addEventListener('click', function() {
+            // Показать текст из PDF после нажатия на кнопку "Показать текст"
+            document.getElementById('pdfText').style.display = 'block';
+        });
+    </script> -->
+</body>
+</html>
