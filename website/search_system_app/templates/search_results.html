@@ -11,8 +11,8 @@
         <button type="submit">Search</button>
     </form>
     <ul>
-        {% for document in documents %}
-        <li><a href = '{{ document.link }}'></a></li>
+        {% for document_link in documents_links %}
+        <li><a href = '{{ document_link }}' target="_blank">{{ document_link }}</a></li>
         {% empty %}
         <li>No documents found.</li>
         {% endfor %}

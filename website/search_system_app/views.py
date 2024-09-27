@@ -4,6 +4,10 @@ from .forms import LinkForm
 import requests
 import PyPDF2
 from django.db.models import Q
+import nltk
+nltk.download('punkt_tab')
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
 # Create your views here.
 import os
 def add_link(request):
@@ -43,17 +47,17 @@ def process_link(doc_id):
 
 def search_results(request):
     query = request.GET.get('query')
+    lemmatizer = WordNetLemmatizer()
+    documents_links = []
     if query:
         search_words = query.split()
         documents = Documents.objects.all()
         for document in documents:
             text = process_link(document.doc_id)
-            for word in search_words:
-                if word not in text:
-                    break
-        
-        
-    else:
-        documents = Documents.objects.all()
+            document_words = word_tokenize(text)
+            lemmatized_words = [lemmatizer.lemmatize(word.lower()) for word in document_words]
+            lemmatized_search_words = [lemmatizer.lemmatize(word.lower()) for word in search_words]
+            if all(word in lemmatized_words for word in lemmatized_search_words):
+                documents_links.append(document.link)
     
-    return render(request, 'search_results.html', {'documents': documents})
+    return render(request, 'search_results.html', {'documents_links': documents_links})
