@@ -10,6 +10,7 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 # Create your views here.
 import os
+from django.core.cache import cache
 def add_link(request):
     if request.method == 'POST':
         form = LinkForm(request.POST)
@@ -24,6 +25,12 @@ def add_link(request):
 
 def process_link(doc_id):
     pdf_doc = Documents.objects.get(pk=doc_id)
+
+     # Проверить наличие текста в кэше
+    cached_text = cache.get(f'document_text_{doc_id}')
+    if cached_text:
+        return cached_text
+
     response = requests.get(pdf_doc.link)
 
     with open("downloaded_pdf.pdf", "wb") as pdf_file:
@@ -36,13 +43,12 @@ def process_link(doc_id):
         for page_num in range(num_pages):
             page = pdf_reader.pages[page_num]
             text += page.extract_text()
-    #   # Запись текста в текстовый файл
-    # with open(f'document_content_{doc_id}.txt', 'w', encoding='utf-8') as txt_file:
-    #     txt_file.write(text)
+
+    cache.set(f'document_text_{doc_id}', text)
 
     # Удаление временного PDF-файла
-   
     os.remove('downloaded_pdf.pdf')
+
     return text
 
 def search_results(request):
@@ -51,13 +57,15 @@ def search_results(request):
     documents_links = []
     if query:
         search_words = query.split()
-        documents = Documents.objects.all()
-        for document in documents:
-            text = process_link(document.doc_id)
+        processed_documents = {}
+        for document in Documents.objects.all():
+            processed_documents[document.doc_id] = process_link(document.doc_id)
+        
+        for doc_id, text in processed_documents.items():
             document_words = word_tokenize(text)
             lemmatized_words = [lemmatizer.lemmatize(word.lower()) for word in document_words]
             lemmatized_search_words = [lemmatizer.lemmatize(word.lower()) for word in search_words]
             if all(word in lemmatized_words for word in lemmatized_search_words):
-                documents_links.append(document.link)
+                documents_links.append(Documents.objects.get(doc_id=doc_id).link)
     
     return render(request, 'search_results.html', {'documents_links': documents_links})
