@@ -1,0 +1,58 @@
+{% include 'search_results.html' %}
+<h2>Для релевантности</h2>
+<table>
+    <tr>
+    <th>Номер документа</th>
+    {% for word in search_words %}
+    <th>{{ word }}</th>
+    {% endfor %}
+    </tr>
+    {% for doc_id, words in relevant_docs.items %}
+    <tr>
+        <td>{{ doc_id }}</td>
+        {% for word, relevant in words.items %}
+        <td>{{ relevant }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </table>
+ 
+<h2>Расчёт метрик</h2>
+    <table>
+        <tr>
+            <th>Метрики</th>
+            <th>Значение</th>
+        </tr>
+        <tr>
+            <td>Точность</td>
+            <td>{{ precision }}</td>
+        </tr>
+        <tr>
+            <td>Полнота</td>
+            <td>{{ recall }}</td>
+        </tr>
+        <tr>
+            <td>Аккуратность</td>
+            <td>{{ accuracy }}</td>
+        </tr>
+        <tr>
+            <td>Ошибка</td>
+            <td>{{ error }}</td>
+        </tr>
+        <tr>
+            <td>F-мера</td>
+            <td>{{ f_measure }}</td>
+        </tr>
+        <tr>
+            <td>Точность на уровне</td>
+            <td>{{ precision_n }}</td>
+        </tr>
+        <tr>
+            <td>Средняя точность</td>
+            <td>{{ avg_Prec }}</td>
+        </tr>
+    </table>
+    <div id="img_graphic">
+    <h2 id="graphic">График</h2>
+    <img src="data:graphic/png;base64,{{ graphic }}" alt="Precision-Recall Chart">
+    </div>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchResult</title>
+    <link rel="stylesheet" href="/static/css/search_system.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    {% include 'translate.html' %}
+    <div class="all_actions">
+    <h1 id="title_name">Search System</h1>
+    <div class="search">
+    <form method="GET" action="{% url 'search_results' %}">
+        <input id="search_input" type="text" name="query" value="{{ query }}" placeholder="Search...">
+        
+    </form>
+    </div>
+    <div id="add_links_and_calc_metrics">
+    <form method="GET" action="{% url 'calculate_metrics' %}">
+        <button  class="btn" type="submit">Calculate Metrics</button>
+    </form>
+    <form action="{% url 'add_links' %}">
+        <button class="btn"  type="submit">Add links</button>
+    </form>
+    </div>
+    </div>
+    <ul class="list">
+
+            {% for document in documents %}
+         
+            <li>{{ document.doc_id }}<a href = '{{ document.link }}' target="_blank"> {{ document.link }}</a></li>
+                <ol>
+                    {% for word in search_words %}
+                    <li>{{ word }}</li>
+                    {% endfor %}
+                </ol>
+                
+            {% endfor %}
+  
+    </ul>
+    
+</body>
+</html>

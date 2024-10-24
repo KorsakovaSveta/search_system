@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translate Selected Words</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+
+    <style>
+        .translation-tooltip {
+            position: absolute;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+    </style>
+
+    <div id="translated-words"></div>
+    
+    <script>
+       $(document).ready(function() {
+        function translateSelectedText(element) {
+            var selectedText = '';
+            var rect;
+            
+            if (element.selectionStart !== undefined) {
+                selectedText = element.value.substring(element.selectionStart, element.selectionEnd);
+                rect = element.getBoundingClientRect();
+            } else {
+                var selection = window.getSelection();
+                selectedText = selection.toString().trim();
+                if (selection.rangeCount > 0) {
+                    rect = selection.getRangeAt(0).getBoundingClientRect();
+                }
+            }
+
+            if (selectedText !== '') {
+                var x = rect.left + window.scrollX;
+                var y = rect.bottom + window.scrollY;
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/translate/',
+                    data: {
+                        text: selectedText,
+                        target_lang: 'ru'
+                    },
+                    success: function(response) {
+                        $('.translation-tooltip').remove();
+                        $('<div class="translation-tooltip"></div>')
+                            .text(response.translated_text)
+                            .css({
+                                top: y + 5,
+                                left: x
+                            })
+                            .appendTo('body');
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            }
+        }
+
+        $('#search_input').on('mouseup', function() {
+            translateSelectedText(this);
+        });
+
+        $(document).on('mouseup', function(event) {
+            if (!$(event.target).is('#search_input')) {
+                translateSelectedText(event.target);
+            }
+        });
+
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('.translation-tooltip').length) {
+                $('.translation-tooltip').remove();
+            }
+        });
+    });
+    </script>
+</body>
+</html>

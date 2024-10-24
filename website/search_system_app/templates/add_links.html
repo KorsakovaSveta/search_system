@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchSystem</title>
+    <link rel="stylesheet" href="/static/css/search_system.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    {% include 'translate.html' %}
+
+    
+    <div class="all_actions">
+        <h1 id="title_name">Search System</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                
+                <!-- <button type="submit">Add Link</button> -->
+            </form>
+            <div id="mesage_and_back">
+            <p id='message'>{{ message }}</p>
+ 
+            <form action="{% url 'search_results' %}">
+                <button id="back" type="submit">Return to search</button>
+            </form>
+        </div>
+        </div>
+        
+    <!-- <button id="showTextBtn">Показать текст</button>
+    <div id="pdfText" style="display: none;">{{ pdf_text }}</div>
+
+    <script>
+        document.getElementById('showTextBtn').addEventListener('click', function() {
+            // Показать текст из PDF после нажатия на кнопку "Показать текст"
+            document.getElementById('pdfText').style.display = 'block';
+        });
+    </script> -->
+</body>
+</html>
