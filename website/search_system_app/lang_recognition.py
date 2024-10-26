@@ -5,7 +5,6 @@ import os
 import requests
 from sklearn.neural_network import MLPClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
-from nltk import ngrams
 from scipy.spatial.distance import cosine
 from collections import Counter
 import json
@@ -105,7 +104,7 @@ def language_recognition(request):
         
        
         request.session['results_for_download'] = results_for_download
-        return render(request, 'lang_recognition.html', {'results': results})
+        return render(request, 'lang_recognition.html', {'results': results, 'url': url})
     else:
         return render(request, 'lang_recognition.html')
 

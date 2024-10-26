@@ -20,10 +20,15 @@
         <input id="search_input" type="text" name="url" required placeholder="Input URL...">
         
     </form>
+    </div>
+    <div id="add_links_and_calc_metrics">
     <form action="{% url 'download' %}">
         <button class="btn"  type="submit">Download Result</button>
     </form>
     </div>
+    </div>
+    <div id="div-for-link">
+    <a id='lang-link' href = '{{ url }}' target="_blank"> {{ url }}</a>
     </div>
     {% if results %}
     {% for method, result in results.items %}
@@ -50,5 +55,6 @@
 </table>
 {% endfor %}
 {% endif %}
+    
 </body>
 </html>
