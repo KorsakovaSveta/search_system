@@ -15,7 +15,6 @@ from collections import Counter
 import matplotlib.pyplot as plt
 import numpy as np
 import io
-from django.shortcuts import render
 from google.cloud import translate_v2 as translate
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt

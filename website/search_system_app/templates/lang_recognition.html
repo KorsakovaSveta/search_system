@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchResult</title>
+    <link rel="stylesheet" href="/static/css/search_system.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    {% include 'translate.html' %}
+    <div class="all_actions">
+    <h1 id="title_name">Language Recognition</h1>
+    <div class="search">
+    <form method="POST" action="{% url 'lang_recognition' %}">
+        {% csrf_token %}
+        <input id="search_input" type="text" name="url" required placeholder="Input URL...">
+        
+    </form>
+    <form action="{% url 'download' %}">
+        <button class="btn"  type="submit">Download Result</button>
+    </form>
+    </div>
+    </div>
+    {% if results %}
+    {% for method, result in results.items %}
+    <h2>{{ method }}</h2>
+    <table>
+
+            <tr>
+                <th>Language</th>
+                <th>Metric</th>
+            </tr>
+
+                <tr>
+                    <td>German</td>
+                    <td>{{ result.0 }}</td>
+                </tr>
+                <tr>
+                    <td>Spanish</td>
+                    <td>{{ result.1 }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>Result: {{ result.2 }}</strong></td>
+                </tr>
+    
+</table>
+{% endfor %}
+{% endif %}
+</body>
+</html>
