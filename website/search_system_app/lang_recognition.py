@@ -65,6 +65,7 @@ def train_model():
     X = vectorizer.fit_transform(texts)
     
     model = MLPClassifier(max_iter=1000)
+    model.predict()
     model.fit(X, labels)
     
     return model, vectorizer

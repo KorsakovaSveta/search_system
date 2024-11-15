@@ -1,0 +1,20 @@
+services:
+ db:
+  image: postgres:17
+  environment:
+   POSTGRES_USER: postgres
+   POSTGRES_PASSWORD: 451df62g956
+   POSTGRES_DB: documents_db
+ app:
+  build: .
+  ports:
+   - "8000:8000"
+  depends_on:
+   - db
+  environment:
+   DATABASE_HOST: db
+   DATABASE_NAME: documents_db
+   DATABASE_USER: postgres
+   DATABASE_PASSWORD: 451df62g956
+
+  command: ["python", "manage.py", "runserver"]

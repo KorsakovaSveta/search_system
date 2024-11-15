@@ -34,7 +34,7 @@ hstspreload==2024.10.1
 httpcore==0.9.1
 httpx==0.13.3
 hyperframe==5.2.0
-idna==3.10
+idna==2.*
 joblib==1.4.2
 kiwisolver==1.4.7
 matplotlib==3.9.2
@@ -48,7 +48,7 @@ propcache==0.2.0
 proto-plus==1.24.0
 protobuf==5.28.2
 psycopg==3.2.3
-psycopg2==2.9.9
+psycopg2-binary==2.9.10
 pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pycparser==2.22

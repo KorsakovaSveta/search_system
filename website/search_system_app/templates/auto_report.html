@@ -13,9 +13,9 @@
 <body>
     {% include 'translate.html' %}
     <div class="all_actions">
-    <h1 id="title_name">Language Recognition</h1>
+    <h1 id="title_name">Automatical report</h1>
     <div class="search">
-    <form method="POST" action="{% url 'lang_recognition' %}">
+    <form method="POST" action="{% url 'auto_report' %}">
         {% csrf_token %}
         <input id="search_input" type="text" name="url" required placeholder="Input URL...">
         
@@ -23,7 +23,10 @@
      
     </div>
     <div id="add_links_and_calc_metrics">
-    <form action="{% url 'download' %}">
+    <form action="{% url 'auto_keywords_report' %}">
+        <button class="btn"  type="submit">Keywords Report</button>
+    </form>
+    <form action="{% url 'download_report' %}">
         <button class="btn"  type="submit">Download Result</button>
     </form>
     <form action="{% url 'search_results' %}">
@@ -33,32 +36,11 @@
     </div>
     <div id="div-for-link">
     <a id='lang-link' href = '{{ url }}' target="_blank"> {{ url }}</a>
-    </div>
-    {% if results %}
-    {% for method, result in results.items %}
-    <h2>{{ method }}</h2>
-    <table>
-
-            <tr>
-                <th>Language</th>
-                <th>Metric</th>
-            </tr>
-
-                <tr>
-                    <td>German</td>
-                    <td>{{ result.0 }}</td>
-                </tr>
-                <tr>
-                    <td>Spanish</td>
-                    <td>{{ result.1 }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2"><strong>Result: {{ result.2 }}</strong></td>
-                </tr>
-    
-</table>
-{% endfor %}
-{% endif %}
+<br>    
+</div>
+    {% if report %}
+   <textarea id = 'report'>{{ report }}</textarea>
+    {% endif %}
     
 </body>
 </html>
