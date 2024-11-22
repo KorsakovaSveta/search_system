@@ -24,9 +24,10 @@ class DocumentReport:
         self.german_stops = set(stopwords.words('german'))
         
     def detect_language(self, text):
-        spanish_chars = len(re.findall(r'[áéíóúñ]', text.lower()))
-        german_chars = len(re.findall(r'[äöüß]', text.lower()))
-        return 'spanish' if spanish_chars > german_chars else 'german'
+        if re.findall(r'[áéíóúñ]', text.lower()):
+            return 'spanish'
+        elif re.findall(r'[äöüß]', text.lower()):
+            return 'german'
     
     def preprocess_text(self, text):
         language = self.detect_language(text)
@@ -175,7 +176,6 @@ class DocumentReport:
         keywords = custom_kw_extractor.extract_keywords(cleaned_text)
 
         top_keywords = [kw[0] for kw in keywords]
-
         return ', '.join(top_keywords)
 
     def clean_text(self, text: str, language: str) -> str:
