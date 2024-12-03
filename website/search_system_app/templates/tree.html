@@ -1,0 +1,6 @@
+{% for sentence, syntax_tree_html in syntax_trees_html.items  %}
+<h2 style="text-align: center;">Syntax Tree</h2>
+<p style="text-align: center;">{{ sentence }}</p>
+<div>{{ syntax_tree_html|safe }}
+</div>
+{% endfor %}

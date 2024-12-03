@@ -129,3 +129,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 GOOGLE_TRANSLATE_API_KEY = 'AIzaSyCqfRkx3qQhAuE5OSMFKrKVUlSugfVM9Mk'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
