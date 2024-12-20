@@ -1,8 +1,6 @@
 # translator/utils/translation.py
-import torch 
 from transformers import MarianMTModel, MarianTokenizer
 import requests
-
 from transformers import MarianMTModel, MarianTokenizer
 from collections import Counter
 import spacy
@@ -13,7 +11,6 @@ from spacy import displacy
 import re
 import nltk
 from nltk.tokenize import sent_tokenize
-from concurrent.futures import ThreadPoolExecutor
 nltk.download('punkt')
 import spacy
 
@@ -131,16 +128,6 @@ def get_pos_tags(request):
     doc = nlp(text)
     pos_tags = [(token.text, token.pos_) for token in doc]
     return render(request, 'pos_tags.html', {'pos_tags': pos_tags})
-
-# def save_translation_to_db(input_text):
-#     # Сохраняем переведенные слова в базу данных
-#     doc = nlp(input_text)
-#     for token in doc:
-#         if not Word.objects.filter(english_word=token.text).exists():
-#             # Получаем перевод
-#             translation = translate(token.text)
-#             # Сохраняем в базу данных
-#             Word.objects.create(english_word=token.text, russian_translation=translation, pos_tag=token.pos_)
 
 def generate_syntax_tree(request):
     """

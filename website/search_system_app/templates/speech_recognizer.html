@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voice Recognition System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .conversation {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .system {
+            background-color: #e9ecef;
+        }
+        .user {
+            background-color: #f8f9fa;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .timestamp {
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Voice Recognition System</h1>
+    
+    <div class="controls">
+        <button id="startButton">Start Recognition</button>
+        <button id="stopButton">Stop Recognition</button>
+    </div>
+
+    <div id="conversations"></div>
+
+    <script>
+        function updateConversations() {
+            fetch('/conversations/')
+                .then(response => response.json())
+                .then(data => {
+                    const conversationsDiv = document.getElementById('conversations');
+                    conversationsDiv.innerHTML = '';
+                    data.conversations.forEach(conv => {
+                        conversationsDiv.innerHTML += `
+                            <div class="conversation ${conv.speaker.toLowerCase()}">
+                                <strong>${conv.speaker}:</strong>
+                                <span>${conv.message}</span>
+                                <div class="timestamp">${conv.timestamp}</div>
+                            </div>
+                        `;
+                    });
+                });
+        }
+
+        document.getElementById('startButton').addEventListener('click', function() {
+            fetch('/start/')
+                .then(response => response.json())
+                .then(data => console.log(data));
+        });
+
+        document.getElementById('stopButton').addEventListener('click', function() {
+            fetch('/stop/')
+                .then(response => response.json())
+                .then(data => console.log(data));
+        });
+
+        // Обновление разговора каждые 2 секунды
+        setInterval(updateConversations, 5000);
+    </script>
+</body>
+</html>

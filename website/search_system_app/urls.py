@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, lang_recognition, auto_report, auto_translate, text_to_speech
+from . import views, lang_recognition, auto_report, auto_translate, text_to_speech, speech_recognizer
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
@@ -19,4 +19,8 @@ urlpatterns = [
     path('get_pos_tags/', auto_translate.get_pos_tags, name='get_pos_tags'),
     path('text_to_speech/', text_to_speech.text_to_speech, name='text_to_speech'),
     #path('export-results/', auto_translate.export_results, name='export_results'),
+    path('speech_recognizer/', speech_recognizer.speech_recognizer, name='speech_recognizer'),
+    path('start/', speech_recognizer.start_recognition, name='start_recognition'),
+    path('stop/', speech_recognizer.stop_recognition, name='stop_recognition'),
+    path('conversations/', speech_recognizer.get_conversations, name='get_conversations'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
